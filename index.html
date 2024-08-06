@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        h2 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #666;
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+        .download-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: none;
+        }
+        .download-button:hover {
+            background-color: #0056b3;
+        }
+        img{
+            height: 60px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>App Store</h1>
+        <img src="./logo.jpg" alt="https://m.media-amazon.com/images/M/MV5BZjc4Mjk0MjEtNGJhNi00MTNiLWEwZWItMDBlOTFhMGVlZjE4XkEyXkFqcGdeQXVyMjYyNzMxOTI@._V1_.jpg">
+        <h2>Remind Me App By Someone</h2>
+        <a id="download-button" download="RemindMe By Someone" class="download-button">Download</a>
+    </div>
+
+    <script>
+        function getABI() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const platform = navigator.platform.toLowerCase();
+            const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/.test(userAgent);
+
+            if (/aarch64|arm64|armv8/.test(userAgent) || /aarch64|arm64|armv8/.test(platform)) {
+                return 'arm64-v8a';
+            } else if (/armv7/.test(userAgent) || /armv7/.test(platform)) {
+                return 'armeabi-v7a';
+            } else if (/x86_64/.test(userAgent) || /x86_64/.test(platform)) {
+                return 'x86_64';
+            } else if (/i686/.test(userAgent) || /x86/.test(userAgent) || /i686/.test(platform) || /x86/.test(platform)) {
+                return 'x86';
+            } else if (isMobile) {
+                return 'mobile';
+            }
+            return 'Unknown';
+        }
+
+        function setDownloadLink(abi) {
+            const downloadButton = document.getElementById('download-button');
+
+
+            switch (abi) {
+                case 'arm64-v8a':
+                    downloadButton.href = './RemindMe-v8.apk';
+                    downloadButton.innerText = 'Download Now';
+                    break;
+                case 'armeabi-v7a':
+                    downloadButton.href = './RemindMe-v7a.apk';
+                    downloadButton.innerText = 'Download Now';
+                    break;
+                case 'x86_64':
+                    downloadButton.href = './RemindMe-x86_64.apk';
+                    downloadButton.innerText = 'Download Now';
+                    break;
+                case 'x86':
+                    downloadButton.href = './RemindMe-x86.apk';
+                    downloadButton.innerText = 'Download Now';
+                    break;
+                case 'mobile':
+                    downloadButton.href = './RemindMe-universal.apk';
+                    downloadButton.innerText = 'Download for mobile';
+                    break;
+                default:
+                    downloadButton.href = '#';
+                    downloadButton.innerText = 'ABI not supported';
+                    break;
+            }
+            downloadButton.style.display = 'inline-block';
+        }
+
+        const abi = getABI();
+        setDownloadLink(abi);
+    </script>
+</body>
+</html>
